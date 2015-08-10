@@ -3,46 +3,35 @@
 module Types
   ( Expression(..)
   , Atom(..)
-  , Literal(..)
   , Stack(..)
   , Program(..)
-  , ParseError(..)
   , RuntimeError(..)
   , emptyStack
   , execProgram
   ) where
 
 
-newtype Expression = Expression { getExpression :: [Atom] }
-  deriving(Show)
+type Expression = [Atom]
 
 data Atom = Name String
-          | Literal Literal
+          | Int Integer
+          | Float Double
+          | String String
+          | Char Char
+          | Quote Expression
           deriving(Show)
 
-data Literal = Int Integer
-             | Float Double
-             | String String
-             | Char Char
-             | Quote [Atom]
-             deriving(Show)
+type Stack = [Atom]
 
-newtype Stack = Stack { getStack :: [Literal] }
-  deriving(Show)
-
-newtype Program = Program { runProgram :: Stack 
-                                       -> Either RuntimeError Stack }
-
-data ParseError = ParseError
-  deriving(Show)
+type Program = Stack -> Either RuntimeError Stack
 
 data RuntimeError = RuntimeError
   deriving(Show)
 
 emptyStack :: Stack
-emptyStack = Stack []
+emptyStack = []
 
 execProgram :: Program -> Either RuntimeError Stack
-execProgram p = runProgram p emptyStack
+execProgram p = p emptyStack
 
 
