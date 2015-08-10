@@ -1,5 +1,6 @@
 module Parse
   ( parseJoy
+  , parseLib
   ) where
 
 import Text.Parsec hiding( (<|>) )
@@ -8,6 +9,9 @@ import Control.Applicative( (<$>), (<|>), (<*>), (<*), (*>) )
 
 parseJoy :: String -> Either ParseError Expression
 parseJoy src = parse expression "(input)" src
+
+parseLib :: FilePath -> String -> Either ParseError Namespace
+parseLib name text = parse defBlock name text
 
 
 

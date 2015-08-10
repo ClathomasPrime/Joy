@@ -3,7 +3,8 @@
 module Types
   ( Expression(..)
   , Atom(..)
-  , Stack(..)
+  , Stack
+  , Namespace
   , Program(..)
   , RuntimeError(..)
   , emptyStack
@@ -22,6 +23,8 @@ data Atom = Name String
           deriving(Show)
 
 type Stack = [Atom]
+
+type Namespace = [(String, Expression)] 
 
 type Program = Stack -> Either RuntimeError Stack
 

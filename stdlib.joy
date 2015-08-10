@@ -1,0 +1,2 @@
+DEFINE
+  fact == [not] [1 +] [dup 1 -] [*] linrec .
