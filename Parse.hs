@@ -4,7 +4,7 @@ module Parse
 
 import Text.Parsec hiding( (<|>) )
 import Types
-import Control.Applicative( (<|>), (<*>), (<*), (*>) )
+import Control.Applicative( (<$>), (<|>), (<*>), (<*), (*>) )
 
 parseJoy :: String -> Either ParseError Expression
 parseJoy src = parse expression "(input)" src
@@ -17,6 +17,25 @@ seperator = many1 $ char ' '
 identifyerChar :: Parsec String () Char
 identifyerChar = noneOf " .;[]"
 
+identifyer :: Parsec String () String
+identifyer = do s <- noneOf " .;[]0123456789" -- ugly
+                str <- many identifyerChar
+                return $ s:str
+
+
+
+defBlock :: Parsec String () [(String, Expression)]
+defBlock = do string "DEFINE"
+              spaces
+              defns <- assignment `sepBy` (spaces >> char ';' >> spaces)
+              char '.'
+              return defns
+
+assignment :: Parsec String () (String, Expression)
+assignment = do name <- identifyer
+                spaces >> string "==" >> spaces
+                value <- expression
+                return (name, value)
 
 
 expression :: Parsec String () Expression
