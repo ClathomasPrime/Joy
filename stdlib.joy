@@ -1,2 +1,6 @@
 DEFINE
-  fact == [not] [1 +] [dup 1 -] [*] linrec .
+    succ == 1 
+  ; fact == [not] [1 +] [dup 1 -] [*] linrec
+  ; factRec == [] [dup 1 - factRec *] [1 +] ifte
+  ; || == not [not] dip && not
+  .

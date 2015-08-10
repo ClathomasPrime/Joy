@@ -29,6 +29,7 @@ type Namespace = [(String, Expression)]
 type Program = Stack -> Either RuntimeError Stack
 
 data RuntimeError = RuntimeError
+                  | RuntimeErrorMessage String
   deriving(Show)
 
 emptyStack :: Stack

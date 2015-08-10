@@ -16,13 +16,13 @@ parseLib name text = parse defBlock name text
 
 
 seperator :: Parsec String () String
-seperator = many1 $ char ' '
+seperator = many1 space
 
 identifyerChar :: Parsec String () Char
-identifyerChar = noneOf " .;[]"
+identifyerChar = noneOf " .;[]\n\t" -- ugly 
 
 identifyer :: Parsec String () String
-identifyer = do s <- noneOf " .;[]0123456789" -- ugly
+identifyer = do s <- noneOf " .;[]0123456789\n\t" -- seriously ugly
                 str <- many identifyerChar
                 return $ s:str
 
