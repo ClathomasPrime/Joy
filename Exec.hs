@@ -37,8 +37,13 @@ execPrim _ "=" (Int i:Int i':atoms)
 execPrim _ "&&" (Int i:Int i':atoms) 
   = Right $ Int (toInt $ fromInt i && fromInt i'): atoms
 execPrim _ "dup" (a:as)  = Right $ a:a:as
+execPrim _ "pop" (a:as)  = Right as
 execPrim b "dip" (Quote as:lit:ls)
   = (Right . (lit:)) =<< meaning b as ls
+execPrim b "dip" _
+  = Left $ RuntimeErrorMessage "didn't get a quote + lit for dip"
+execPrim b "i" (Quote as:lit)
+  = meaning b as lit
 execPrim b "ifte" (Quote elseQ: Quote thenQ: Quote ifQ: atoms)
   = case meaning b ifQ atoms of
          Right (Int 0:_) ->

@@ -10,7 +10,7 @@ import Types
 import Parse
 import Exec
 
-main = do file <- fmap head getArgs
+main = do file <- fmap (head . (++["stdlib.joy"])) getArgs
           source <- readFile file
           case parseLib file source of
                Left er -> print er

@@ -43,7 +43,7 @@ assignment = do name <- identifyer
 
 
 expression :: Parsec String () Expression
-expression = atom `sepEndBy` seperator
+expression = spaces *> (atom `sepEndBy` seperator)
 
 atom :: Parsec String () Atom
 atom =  fmap Quote quote
